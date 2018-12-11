@@ -2,12 +2,14 @@
 
 An [Imgix](https://imgix.com) library for Dart. Generate Imgix URLs with options easily
 
+For use in Flutter, check out [`imgix_flutter`](https://pub.dartlang.org/packages/imgix_flutter)
+
 ## Install
 Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  imgix: ^0.1.1
+  imgix: ^0.1.2
 ```
 
 ## Usage

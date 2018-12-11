@@ -1,6 +1,6 @@
 name: imgix
 description: An Imgix library for Dart. Generate Imgix URLs with options easily
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/Cretezy/imgix.dart
 author: Charles Crete <charles@cretezy.com>
 
