@@ -37,4 +37,4 @@ main() {
 
 Some options are missing. They will be added on request, or open a pull request!
 
-Please file feature requests and bugs at the [issue tracker][https://github.com/Cretezy/imgix.dart].
+Please file feature requests and bugs at the [issue tracker](https://github.com/Cretezy/imgix.dart).
