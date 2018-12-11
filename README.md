@@ -1,8 +1,18 @@
 # Imgix Dart
 
-A [Imgix](https://imgix.com) library for Dart.
+An [Imgix](https://imgix.com) library for Dart. Generate Imgix URLs with options easily
+
+## Install
+Add this to your package's `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  imgix: ^0.1.1
+```
 
 ## Usage
+
+[API Docs](https://pub.dartlang.org/documentation/imgix/latest)
 
 ```dart
 import 'package:imgix/imgix.dart';
