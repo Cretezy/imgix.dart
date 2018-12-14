@@ -12,6 +12,6 @@ main() {
     ),
   );
 
-  print(
-      url); // https://test.imgix.net/test.png?fm=jpg&h=200&w=100&auto=compress&q=75
+  print(url);
+  // https://test.imgix.net/test.png?fm=jpg&h=200&w=100&auto=compress&q=75
 }

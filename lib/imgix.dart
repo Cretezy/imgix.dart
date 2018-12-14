@@ -1,85 +1,184 @@
 library imgix;
 
+import 'package:imgix/src/adjust.dart';
+import 'package:imgix/src/auto.dart';
+import 'package:imgix/src/border.dart';
+import 'package:imgix/src/fill.dart';
+import 'package:imgix/src/format.dart';
+import 'package:imgix/src/quality.dart';
+import 'package:imgix/src/rotate.dart';
+import 'package:imgix/src/size.dart';
+import 'package:imgix/src/trim.dart';
 import 'package:imgix/src/utils.dart';
 
-enum ImgixFormat {
-  gif,
-  jp2,
-  jpg,
-  json,
-  jxr,
-  pjpg,
-  mp4,
-  png,
-  png8,
-  png32,
-  webm,
-  webp,
-}
-
-enum ImgixFit {
-  clamp,
-  clip,
-  crop,
-  faceArea,
-  fill,
-  fillMax,
-  max,
-  min,
-  scale,
-}
-
-enum ImgixAuto {
-  compress,
-  enhance,
-  format,
-  redeye,
-}
-
-enum ImgixTrim {
-  auto,
-  color,
-}
+export 'package:imgix/src/auto.dart' show ImgixAuto;
+export 'package:imgix/src/border.dart' show ImgixBorder, ImgixBorderRadius;
+export 'package:imgix/src/fill.dart' show ImgixFillMode;
+export 'package:imgix/src/format.dart' show ImgixFormat;
+export 'package:imgix/src/rotate.dart' show ImgixFlip;
+export 'package:imgix/src/size.dart' show ImgixFit;
+export 'package:imgix/src/trim.dart' show ImgixTrim;
 
 class ImgixOptions {
-  // https://docs.imgix.com/apis/url/format
+  /// The output format to convert the image to.
+  ///
+  /// https://docs.imgix.com/apis/url/format/fm
   final ImgixFormat format;
 
-  // https://docs.imgix.com/apis/url/size/h
+  /// The height of the output image.
+  ///
+  /// Can be used as a ratio of source height if set between 0.0 and 1.0.
+  ///
+  /// https://docs.imgix.com/apis/url/size/h
   final double height;
 
-  // https://docs.imgix.com/apis/url/size/w
+  /// The width of the output image.
+  ///
+  /// Can be used as a ratio of source width if set between 0.0 and 1.0.
+  ///
+  /// https://docs.imgix.com/apis/url/size/w
   final double width;
 
-  // https://docs.imgix.com/apis/url/size/max-h
+  /// The maximum allowed height of the output image.
+  ///
+  /// Will only work if [fit] is set to [ImgixFit.crop].
+  ///
+  /// https://docs.imgix.com/apis/url/size/max-h
   final int maxHeight;
 
-  // https://docs.imgix.com/apis/url/size/max-w
+  /// The maximum allowed width of the output image.
+  ///
+  /// Will only work if [fit] is set to [ImgixFit.crop].
+  ///
+  /// https://docs.imgix.com/apis/url/size/max-w
   final int maxWidth;
 
-  // https://docs.imgix.com/apis/url/size/min-h
+  /// The minimum allowed height of the output image.
+  ///
+  /// Will only work if [fit] is set to [ImgixFit.crop].
+  ///
+  /// https://docs.imgix.com/apis/url/size/min-h
   final int minHeight;
 
-  // https://docs.imgix.com/apis/url/size/min-w
+  /// The minimum allowed width of the output image.
+  ///
+  /// Will only work if [fit] is set to [ImgixFit.crop].
+  ///
+  /// https://docs.imgix.com/apis/url/size/min-w
   final int minWidth;
 
-  // https://docs.imgix.com/apis/url/size/fit
+  /// The fit parameter controls how the output image is fit to its
+  /// target dimensions after resizing,
+  /// and how any background areas will be filled.
+  ///
+  /// https://docs.imgix.com/apis/url/size/fit
   final ImgixFit fit;
 
-  // https://docs.imgix.com/apis/url/auto
+  /// The auto parameter helps you automate a baseline level of optimization
+  /// across your entire image catalog.
+  ///
+  /// https://docs.imgix.com/apis/url/auto
   final List<ImgixAuto> auto;
 
-  // https://docs.imgix.com/apis/url/trim/trim
+  /// Trims the image to remove a uniform border around the image.
+  /// This operation must be set for the other trim parameters to work,
+  /// and it will change the size of the image.
+  ///
+  /// https://docs.imgix.com/apis/url/trim/trim
   final ImgixTrim trim;
 
-  // https://docs.imgix.com/apis/url/trim/trimtol
+  /// The trim tolerance parameter defines the tolerance
+  /// for the [ImgixTrim.color] operation.
+  ///
+  /// https://docs.imgix.com/apis/url/trim/trimtol
   final double trimTolerance;
 
-  // https://docs.imgix.com/apis/url/format/q
+  /// Controls the output quality of lossy file [format]
+  /// ([ImgixFormat.jpg], [ImgixFormat.pjpg], [ImgixFormat.webp],
+  /// or [ImgixFormat.jxr]).
+  ///
+  /// https://docs.imgix.com/apis/url/format/q
   final int quality;
 
-  // https://docs.imgix.com/apis/url/dpr
+  /// Controls the output density of your image, so you can serve images at the
+  /// correct density for every user’s device from a single master image.
+  ///
+  /// You must specify a [width], a [height], or both for this parameter to work.
+  ///
+  /// The default is 1 and the maximum value is 8.
+  ///
+  /// https://docs.imgix.com/apis/url/dpr
   final double devicePixelRatio;
+
+  /// Draws a border around the image, in the width and color defined.
+  /// The border will overlap the image rather than altering its size.
+  ///
+  /// https://docs.imgix.com/apis/url/border-and-padding/border
+  final ImgixBorder border;
+
+  /// Sets the outer radius of the border.
+  ///
+  /// https://docs.imgix.com/apis/url/border-and-padding/border-radius
+  final ImgixBorderRadius borderRadius;
+
+  /// Sets the inner radius of the border, in pixels.
+  ///
+  /// https://docs.imgix.com/apis/url/border-and-padding/border-radius-inner
+  final ImgixBorderRadius borderRadiusInner;
+
+  /// Pads the image by the number of pixels specified.
+  /// Must be a positive integer.
+  ///
+  /// https://docs.imgix.com/apis/url/border-and-padding/pad
+  final int padding;
+
+  /// Allows you to fill in any transparent areas in your image with a color of your choice.
+  ///
+  /// 3 (RGB, FFF), 4 (ARGB, FFFF), 6 (RGB, FFFFFF), or 8 (ARGB, FFFFFFFF) character color hex (without #)
+  ///
+  /// https://docs.imgix.com/apis/url/fill/bg
+  final String backgroundColor;
+
+  /// Specifies the solid color applied to the excess space of an image resized
+  /// with [fit] of [ImgixFit.fill] or [ImgixFit.fillMax].
+  ///
+  /// The parameter is dependent on the [fillMode] of [ImgixFillMode.solid] mode.
+  ///
+  /// 3 (RGB, FFF), 4 (ARGB, FFFF), 6 (RGB, FFFFFF), or 8 (ARGB, FFFFFFFF) character color hex (without #)
+  ///
+  /// https://docs.imgix.com/apis/url/fill/fill-color
+  final String fillColor;
+
+  /// The fill parameter determines how the excess space in an image resized
+  /// with [fit] of [ImgixFit.fill] or [ImgixFit.fillMax] should be filled.
+  ///
+  /// https://docs.imgix.com/apis/url/fill/fill
+  final ImgixFillMode fillMode;
+
+  /// When used in a link, will force the browser to download the image instead
+  /// of opening it in a new window. Set the value to your desired filename.
+  ///
+  /// https://docs.imgix.com/apis/url/format/dl
+  final String downloadFileName;
+
+  /// Rotates the image by degrees according to the value specified.
+  ///
+  /// Must be between 0 and 359 (inclusive).
+  ///
+  /// https://docs.imgix.com/apis/url/rotation/rot
+  final double rotation;
+
+  /// Flips the image horizontally, vertically, or both.
+  ///
+  /// https://docs.imgix.com/apis/url/rotation/flip
+  final ImgixFlip flip;
+
+  /// Adjusts the overall brightness of the image.
+  ///
+  /// Must be between -100 and +100 (inclusive).
+  ///
+  /// https://docs.imgix.com/apis/url/adjustment/bri
+  final double brightness;
 
   ImgixOptions({
     this.format,
@@ -95,6 +194,17 @@ class ImgixOptions {
     this.trimTolerance,
     this.quality,
     this.devicePixelRatio,
+    this.border,
+    this.borderRadius,
+    this.borderRadiusInner,
+    this.padding,
+    this.backgroundColor,
+    this.fillColor,
+    this.fillMode,
+    this.downloadFileName,
+    this.rotation,
+    this.flip,
+    this.brightness,
   });
 
   ImgixOptions copyWith({
@@ -124,6 +234,28 @@ class ImgixOptions {
     bool noQuality = false,
     double devicePixelRatio,
     bool noDevicePixelRatio = false,
+    ImgixBorder border,
+    bool noBorder = false,
+    ImgixBorderRadius borderRadius,
+    bool noBorderRadius = false,
+    ImgixBorderRadius borderRadiusInner,
+    bool noBorderRadiusInner = false,
+    int padding,
+    bool noPadding = false,
+    String backgroundColor,
+    bool noBackgroundColor = false,
+    String fillColor,
+    bool noFillColor = false,
+    ImgixFillMode fillMode,
+    bool noFillMode = false,
+    String downloadFileName,
+    bool noDownloadFileName = false,
+    double rotation,
+    bool noRotation = false,
+    ImgixFlip flip,
+    bool noFlip = false,
+    double brightness,
+    bool noBrightness = false,
   }) =>
       ImgixOptions(
         format: !noFormat ? format ?? this.format : null,
@@ -142,202 +274,77 @@ class ImgixOptions {
         devicePixelRatio: !noDevicePixelRatio
             ? devicePixelRatio ?? this.devicePixelRatio
             : null,
+        border: !noBorder ? border ?? this.border : null,
+        borderRadius:
+            !noBorderRadius ? borderRadius ?? this.borderRadius : null,
+        borderRadiusInner: !noBorderRadiusInner
+            ? borderRadiusInner ?? this.borderRadiusInner
+            : null,
+        padding: !noPadding ? padding ?? this.padding : null,
+        backgroundColor:
+            !noBackgroundColor ? backgroundColor ?? this.backgroundColor : null,
+        fillColor: !noFillColor ? fillColor ?? this.fillColor : null,
+        fillMode: !noFillMode ? fillMode ?? this.fillMode : null,
+        downloadFileName: !noDownloadFileName
+            ? downloadFileName ?? this.downloadFileName
+            : null,
+        rotation: !noRotation ? rotation ?? this.rotation : null,
+        flip: !noFlip ? flip ?? this.flip : null,
+        brightness: !noBrightness ? brightness ?? this.brightness : null,
       );
 }
 
-/// Generates an Imgix URL from a [url] and [options]
-String getImgixUrl(String url, ImgixOptions options) {
-  // No options is a passthrough
+/// Generates an Imgix URL from a [url] and [options].
+///
+/// [clearQueryParameters] will clear all other query parameters on the URL.
+String getImgixUrl(String url, ImgixOptions options,
+    {bool clearQueryParameters = false}) {
+  // No options is a pass-through
   if (options == null) {
     return url;
   }
 
   final queryParameters = Map<String, String>();
 
-  if (options.format != null) {
-    switch (options.format) {
-      case ImgixFormat.gif:
-        queryParameters["fm"] = "gif";
-        break;
-      case ImgixFormat.jp2:
-        queryParameters["fm"] = "jp2";
-        break;
-      case ImgixFormat.jpg:
-        queryParameters["fm"] = "jpg";
-        break;
-      case ImgixFormat.json:
-        queryParameters["fm"] = "json";
-        break;
-      case ImgixFormat.jxr:
-        queryParameters["fm"] = "jxr";
-        break;
-      case ImgixFormat.pjpg:
-        queryParameters["fm"] = "pjpg";
-        break;
-      case ImgixFormat.mp4:
-        queryParameters["fm"] = "mp4";
-        break;
-      case ImgixFormat.png:
-        queryParameters["fm"] = "png";
-        break;
-      case ImgixFormat.png8:
-        queryParameters["fm"] = "png8";
-        break;
-      case ImgixFormat.png32:
-        queryParameters["fm"] = "png32";
-        break;
-      case ImgixFormat.webm:
-        queryParameters["fm"] = "webm";
-        break;
-      case ImgixFormat.webp:
-        queryParameters["fm"] = "webp";
-        break;
-    }
-  }
+  final appliers = <ApplyParams>[
+    applyFormat,
+    applyWidth,
+    applyHeight,
+    applyMaxWidth,
+    applyMaxHeight,
+    applyMinWidth,
+    applyMinHeight,
+    applyFit,
+    applyAuto,
+    applyTrim,
+    applyTrimTolerance,
+    applyQuality,
+    applyDevicePixelRatio,
+    applyBorder,
+    applyBorderRadius,
+    applyBorderRadiusInner,
+    applyPadding,
+    applyBackgroundColor,
+    applyFillColor,
+    applyFillMode,
+    applyDownloadFileName,
+    applyRotation,
+    applyFlip,
+    applyBrightness,
+  ];
 
-  if (options.height != null) {
-    assert(options.height > 0, "Images must be over 0px high");
-    assert(options.height <= 8192, "Images must be under 8192px high");
-
-    queryParameters["h"] = trimDouble(options.height);
-  }
-  if (options.width != null) {
-    assert(options.width > 0, "Images must be over 0px wide");
-    assert(options.width <= 8192, "Images must be under 8192px wide");
-
-    queryParameters["w"] = trimDouble(options.width);
-  }
-
-  if (options.maxHeight != null) {
-    assert(options.maxHeight > 0, "Max height must be over 0px high");
-    assert(options.maxHeight <= 8192, "Max height must be under 8192px high");
-    assert(options.fit == ImgixFit.crop, "Fit must be crop to use max height");
-    queryParameters["max-h"] = options.maxHeight.toString();
-  }
-  if (options.maxWidth != null) {
-    assert(options.maxWidth > 0, "Max width must be over 0px wide");
-    assert(options.maxWidth <= 8192, "Max width must be under 8192px wide");
-    assert(options.fit == ImgixFit.crop, "Fit must be crop to use max width");
-
-    queryParameters["max-w"] = options.maxWidth.toString();
-  }
-
-  if (options.minHeight != null) {
-    assert(options.minHeight > 0, "Min height must be over 0px high");
-    assert(options.minHeight <= 8192, "Min height must be under 8192px high");
-    assert(options.fit == ImgixFit.crop, "Fit must be crop to use max height");
-    queryParameters["min-h"] = options.minHeight.toString();
-  }
-  if (options.minWidth != null) {
-    assert(options.minWidth > 0, "Min width must be over 0px wide");
-    assert(options.minWidth <= 8192, "Min width must be under 8192px wide");
-    assert(options.fit == ImgixFit.crop, "Fit must be crop to use max width");
-
-    queryParameters["min-w"] = options.minWidth.toString();
-  }
-
-  if (options.fit != null) {
-    switch (options.fit) {
-      case ImgixFit.clamp:
-        queryParameters["fit"] = "clamp";
-        break;
-      case ImgixFit.clip:
-        queryParameters["fit"] = "clip";
-        break;
-      case ImgixFit.crop:
-        queryParameters["fit"] = "crop";
-        break;
-      case ImgixFit.faceArea:
-        queryParameters["fit"] = "facearea";
-        break;
-      case ImgixFit.fill:
-        queryParameters["fit"] = "fill";
-        break;
-      case ImgixFit.fillMax:
-        queryParameters["fit"] = "fillmax";
-        break;
-      case ImgixFit.max:
-        queryParameters["fit"] = "max";
-        break;
-      case ImgixFit.min:
-        queryParameters["fit"] = "min";
-        break;
-      case ImgixFit.scale:
-        queryParameters["fit"] = "scale";
-        break;
-    }
-  }
-
-  if (options.auto?.isNotEmpty == true) {
-    final auto = List<String>();
-
-    if (options.auto.contains(ImgixAuto.compress)) {
-      auto.add("compress");
-    }
-    if (options.auto.contains(ImgixAuto.enhance)) {
-      auto.add("enhance");
-    }
-    if (options.auto.contains(ImgixAuto.format)) {
-      auto.add("format");
-    }
-    if (options.auto.contains(ImgixAuto.redeye)) {
-      auto.add("redeye");
-    }
-
-    queryParameters["auto"] = auto.join(",");
-  }
-
-  if (options.trim != null) {
-    switch (options.trim) {
-      case ImgixTrim.auto:
-        queryParameters["trim"] = "auto";
-        break;
-      case ImgixTrim.color:
-        queryParameters["trim"] = "color";
-        break;
-    }
-  }
-
-  if (options.trimTolerance != null) {
-    assert(options.trimTolerance >= 0,
-        "Trim tolerance must be over or equal to 0");
-
-    queryParameters["trimtol"] = trimDouble(options.trimTolerance);
-  }
-
-  if (options.quality != null) {
-    assert(
-        [
-          null,
-          ImgixFormat.jpg,
-          ImgixFormat.pjpg,
-          ImgixFormat.webp,
-          ImgixFormat.jxr,
-        ].contains(options.format),
-        "Quality can only be applied to formats jpg, pjpg, webp, or jxr (or set to null)");
-
-    queryParameters["q"] = options.quality.toString();
-  }
-
-  if (options.devicePixelRatio != null) {
-    assert(
-        options.devicePixelRatio > 0, "Device pixel ratio must be over zero");
-    assert(options.devicePixelRatio <= 8,
-        "Device pixel ratio must under or equal to 8");
-    assert(options.height != null || options.width != null,
-        "Device pixel ratio requires a height or width (or both)");
-
-    queryParameters["dpr"] = trimDouble(options.devicePixelRatio);
-  }
+  appliers.forEach((applier) => applier(queryParameters, options));
 
   final uri = Uri.parse(url);
 
-  // Merge old query parameters
-  uri.queryParameters.forEach((key, value) {
-    if (!queryParameters.containsKey(key)) {
-      queryParameters[key] = value;
-    }
-  });
+  if (!clearQueryParameters) {
+    // Merge old query parameters
+    uri.queryParameters.forEach((key, value) {
+      if (!queryParameters.containsKey(key)) {
+        queryParameters[key] = value;
+      }
+    });
+  }
 
   return uri.replace(queryParameters: queryParameters).toString();
 }

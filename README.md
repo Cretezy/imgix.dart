@@ -9,7 +9,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  imgix: ^0.1.2
+  imgix: ^0.2.0
 ```
 
 ## Usage
@@ -31,7 +31,8 @@ main() {
     ),
   );
 
-  print(url); // https://test.imgix.net/test.png?fm=jpg&h=200&w=100&auto=compress&q=75
+  print(url);
+  // https://test.imgix.net/test.png?fm=jpg&h=200&w=100&auto=compress&q=75
 }
 ```
 

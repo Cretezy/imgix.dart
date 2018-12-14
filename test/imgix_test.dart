@@ -3,6 +3,10 @@ import 'package:test/test.dart';
 
 final baseUrl = "https://test.imgix.net/test.png";
 
+Map<String, String> getQueryParams(String uri) {
+  return Uri.parse(uri).queryParameters;
+}
+
 void main() {
   test('Sets format and quality', () {
     final url = getImgixUrl(
@@ -10,8 +14,8 @@ void main() {
       ImgixOptions(format: ImgixFormat.jpg, quality: 75),
     );
 
-    expect(Uri.parse(url).queryParameters["fm"], equals("jpg"));
-    expect(Uri.parse(url).queryParameters["q"], equals("75"));
+    expect(getQueryParams(url)["fm"], equals("jpg"));
+    expect(getQueryParams(url)["q"], equals("75"));
   });
 
   test('Sets width and height and devicePixelRatio', () {
@@ -20,9 +24,9 @@ void main() {
       ImgixOptions(width: 100, height: 200, devicePixelRatio: 3.5),
     );
 
-    expect(Uri.parse(url).queryParameters["w"], equals("100"));
-    expect(Uri.parse(url).queryParameters["h"], equals("200"));
-    expect(Uri.parse(url).queryParameters["dpr"], equals("3.5"));
+    expect(getQueryParams(url)["w"], equals("100"));
+    expect(getQueryParams(url)["h"], equals("200"));
+    expect(getQueryParams(url)["dpr"], equals("3.5"));
   });
 
   test('Sets maxWidth and maxHeight (and fit)', () {
@@ -35,9 +39,9 @@ void main() {
       ),
     );
 
-    expect(Uri.parse(url).queryParameters["max-w"], equals("100"));
-    expect(Uri.parse(url).queryParameters["max-h"], equals("200"));
-    expect(Uri.parse(url).queryParameters["fit"], equals("crop"));
+    expect(getQueryParams(url)["max-w"], equals("100"));
+    expect(getQueryParams(url)["max-h"], equals("200"));
+    expect(getQueryParams(url)["fit"], equals("crop"));
   });
 
   test('Sets minWidth and minHeight (and fit)', () {
@@ -50,9 +54,9 @@ void main() {
       ),
     );
 
-    expect(Uri.parse(url).queryParameters["min-w"], equals("100"));
-    expect(Uri.parse(url).queryParameters["min-h"], equals("200"));
-    expect(Uri.parse(url).queryParameters["fit"], equals("crop"));
+    expect(getQueryParams(url)["min-w"], equals("100"));
+    expect(getQueryParams(url)["min-h"], equals("200"));
+    expect(getQueryParams(url)["fit"], equals("crop"));
   });
 
   test('Sets single auto', () {
@@ -61,7 +65,7 @@ void main() {
       ImgixOptions(auto: [ImgixAuto.compress]),
     );
 
-    expect(Uri.parse(url).queryParameters["auto"], equals("compress"));
+    expect(getQueryParams(url)["auto"], equals("compress"));
   });
 
   test('Sets multiple auto', () {
@@ -72,7 +76,7 @@ void main() {
       ),
     );
 
-    expect(Uri.parse(url).queryParameters["auto"], equals("compress,format"));
+    expect(getQueryParams(url)["auto"], equals("compress,format"));
   });
 
   test('Sets trim and trimTolerance', () {
@@ -81,7 +85,71 @@ void main() {
       ImgixOptions(trim: ImgixTrim.auto, trimTolerance: 11.1),
     );
 
-    expect(Uri.parse(url).queryParameters["trim"], equals("auto"));
-    expect(Uri.parse(url).queryParameters["trimtol"], equals("11.1"));
+    expect(getQueryParams(url)["trim"], equals("auto"));
+    expect(getQueryParams(url)["trimtol"], equals("11.1"));
+  });
+
+  test('Sets border, borderRadius, and borderRadiusInner', () {
+    final url = getImgixUrl(
+      baseUrl,
+      ImgixOptions(
+        border: ImgixBorder(color: "FFF", width: 100),
+        borderRadius: ImgixBorderRadius(
+            topLeft: 25, topRight: 50, bottomLeft: 75, bottomRight: 100),
+        borderRadiusInner: ImgixBorderRadius.circular(200),
+      ),
+    );
+
+    expect(getQueryParams(url)["border"], equals("100,FFF"));
+    expect(getQueryParams(url)["border-radius"], equals("25,50,100,75"));
+    expect(getQueryParams(url)["border-radius-inner"], equals("200"));
+  });
+
+  test('Sets padding and backgroundColor', () {
+    final url = getImgixUrl(
+      baseUrl,
+      ImgixOptions(padding: 100, backgroundColor: "FFF"),
+    );
+
+    expect(getQueryParams(url)["pad"], equals("100"));
+    expect(getQueryParams(url)["bg"], equals("FFF"));
+  });
+
+  test('Sets fillColor and fillMode', () {
+    final url = getImgixUrl(
+      baseUrl,
+      ImgixOptions(fillMode: ImgixFillMode.blur, fillColor: "FFF"),
+    );
+
+    expect(getQueryParams(url)["fill"], equals("blur"));
+    expect(getQueryParams(url)["fill-color"], equals("FFF"));
+  });
+
+  test('Sets downloadFileName', () {
+    final url = getImgixUrl(
+      baseUrl,
+      ImgixOptions(downloadFileName: "original.png"),
+    );
+
+    expect(getQueryParams(url)["dl"], equals("original.png"));
+  });
+
+  test('Sets rotation and flip', () {
+    final url = getImgixUrl(
+      baseUrl,
+      ImgixOptions(rotation: 60, flip: ImgixFlip.horizontalVertical),
+    );
+
+    expect(getQueryParams(url)["rot"], equals("60"));
+    expect(getQueryParams(url)["flip"], equals("hv"));
+  });
+
+  test('Sets brightness', () {
+    final url = getImgixUrl(
+      baseUrl,
+      ImgixOptions(brightness: -55.5),
+    );
+
+    expect(getQueryParams(url)["bri"], equals("-55.5"));
   });
 }
