@@ -8,22 +8,23 @@ enum ImgixFlip {
 }
 
 final ApplyParams applyRotation = (queryParameters, options) {
-  if (options.rotation == null) {
+  final rotation = options.rotation;
+  if (rotation == null) {
     return;
   }
 
-  assert(options.rotation >= 0 && options.rotation < 360,
-      "Rotation must be between [0, 360)");
+  assert(rotation >= 0 && rotation < 360, "Rotation must be between [0, 360)");
 
-  queryParameters["rot"] = trimDouble(options.rotation);
+  queryParameters["rot"] = trimDouble(rotation);
 };
 
 final ApplyParams applyFlip = (queryParameters, options) {
-  if (options.flip == null) {
+  final flip = options.flip;
+  if (flip == null) {
     return;
   }
 
-  switch (options.flip) {
+  switch (flip) {
     case ImgixFlip.horizontal:
       queryParameters["flip"] = "h";
       break;

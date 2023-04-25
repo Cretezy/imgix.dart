@@ -17,11 +17,12 @@ enum ImgixFormat {
 }
 
 final ApplyParams applyFormat = (queryParameters, options) {
-  if (options.format == null) {
+  final format = options.format;
+  if (format == null) {
     return;
   }
 
-  switch (options.format) {
+  switch (format) {
     case ImgixFormat.gif:
       queryParameters["fm"] = "gif";
       break;
@@ -62,9 +63,10 @@ final ApplyParams applyFormat = (queryParameters, options) {
 };
 
 final ApplyParams applyDownloadFileName = (queryParameters, options) {
-  if (options.downloadFileName == null) {
+  final downloadFileName = options.downloadFileName;
+  if (downloadFileName == null) {
     return;
   }
 
-  queryParameters["dl"] = options.downloadFileName;
+  queryParameters["dl"] = downloadFileName;
 };

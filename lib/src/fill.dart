@@ -7,31 +7,34 @@ enum ImgixFillMode {
 }
 
 final ApplyParams applyBackgroundColor = (queryParameters, options) {
-  if (options.backgroundColor == null) {
+  final backgroundColor = options.backgroundColor;
+  if (backgroundColor == null) {
     return;
   }
 
-  assertColor(options.backgroundColor, "Background color");
+  assertColor(backgroundColor, "Background color");
 
-  queryParameters["bg"] = options.backgroundColor;
+  queryParameters["bg"] = backgroundColor;
 };
 
 final ApplyParams applyFillColor = (queryParameters, options) {
-  if (options.fillColor == null) {
+  final fillColor = options.fillColor;
+  if (fillColor == null) {
     return;
   }
 
-  assertColor(options.fillColor, "Fill color");
+  assertColor(fillColor, "Fill color");
 
-  queryParameters["fill-color"] = options.fillColor;
+  queryParameters["fill-color"] = fillColor;
 };
 
 final ApplyParams applyFillMode = (queryParameters, options) {
-  if (options.fillMode == null) {
+  final fillMode = options.fillMode;
+  if (fillMode == null) {
     return;
   }
 
-  switch (options.fillMode) {
+  switch (fillMode) {
     case ImgixFillMode.blur:
       queryParameters["fill"] = "blur";
       break;

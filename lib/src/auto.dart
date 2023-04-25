@@ -9,24 +9,25 @@ enum ImgixAuto {
 }
 
 final ApplyParams applyAuto = (queryParameters, options) {
-  if (options.auto == null) {
+  final auto = options.auto;
+  if (auto == null) {
     return;
   }
 
-  final auto = List<String>();
+  final autoOut = <String>[];
 
-  if (options.auto.contains(ImgixAuto.compress)) {
-    auto.add("compress");
+  if (auto.contains(ImgixAuto.compress)) {
+    autoOut.add("compress");
   }
-  if (options.auto.contains(ImgixAuto.enhance)) {
-    auto.add("enhance");
+  if (auto.contains(ImgixAuto.enhance)) {
+    autoOut.add("enhance");
   }
-  if (options.auto.contains(ImgixAuto.format)) {
-    auto.add("format");
+  if (auto.contains(ImgixAuto.format)) {
+    autoOut.add("format");
   }
-  if (options.auto.contains(ImgixAuto.redeye)) {
-    auto.add("redeye");
+  if (auto.contains(ImgixAuto.redeye)) {
+    autoOut.add("redeye");
   }
 
-  queryParameters["auto"] = auto.join(",");
+  queryParameters["auto"] = autoOut.join(",");
 };

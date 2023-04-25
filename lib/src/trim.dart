@@ -7,11 +7,12 @@ enum ImgixTrim {
 }
 
 final ApplyParams applyTrim = (queryParameters, options) {
-  if (options.trim == null) {
+  final trim = options.trim;
+  if (trim == null) {
     return;
   }
 
-  switch (options.trim) {
+  switch (trim) {
     case ImgixTrim.auto:
       queryParameters["trim"] = "auto";
       break;
@@ -22,12 +23,12 @@ final ApplyParams applyTrim = (queryParameters, options) {
 };
 
 final ApplyParams applyTrimTolerance = (queryParameters, options) {
-  if (options.trimTolerance == null) {
+  final trimTolerance = options.trimTolerance;
+  if (trimTolerance == null) {
     return;
   }
 
-  assert(
-      options.trimTolerance >= 0, "Trim tolerance must be over or equal to 0");
+  assert(trimTolerance >= 0, "Trim tolerance must be over or equal to 0");
 
-  queryParameters["trimtol"] = trimDouble(options.trimTolerance);
+  queryParameters["trimtol"] = trimDouble(trimTolerance);
 };

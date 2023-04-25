@@ -1,5 +1,4 @@
 import 'package:imgix/src/utils.dart';
-import 'package:meta/meta.dart';
 
 /// https://docs.imgix.com/apis/url/border-and-padding/border
 class ImgixBorder {
@@ -9,9 +8,12 @@ class ImgixBorder {
   /// Width in pixel
   final int width;
 
-  ImgixBorder({@required this.color, @required this.width});
+  ImgixBorder({
+    required this.color,
+    required this.width,
+  });
 
-  ImgixBorder copyWith(String color, int width) => ImgixBorder(
+  ImgixBorder copyWith(String? color, int? width) => ImgixBorder(
         color: color ?? this.color,
         width: width ?? this.width,
       );
@@ -31,10 +33,10 @@ class ImgixBorderRadius {
   final int bottomRight;
 
   ImgixBorderRadius({
-    @required this.topLeft,
-    @required this.topRight,
-    @required this.bottomLeft,
-    @required this.bottomRight,
+    required this.topLeft,
+    required this.topRight,
+    required this.bottomLeft,
+    required this.bottomRight,
   });
 
   /// ImgixBorderRadius with all sides the same width
@@ -47,12 +49,12 @@ class ImgixBorderRadius {
     );
   }
 
-  ImgixBorderRadius copyWith(
-    int topLeft,
-    int topRight,
-    int bottomLeft,
-    int bottomRight,
-  ) =>
+  ImgixBorderRadius copyWith({
+    int? topLeft,
+    int? topRight,
+    int? bottomLeft,
+    int? bottomRight,
+  }) =>
       ImgixBorderRadius(
         topLeft: topLeft ?? this.topLeft,
         topRight: topRight ?? this.topRight,
@@ -74,50 +76,54 @@ class ImgixBorderRadius {
 }
 
 final ApplyParams applyBorder = (queryParameters, options) {
-  if (options.border == null) {
+  final border = options.border;
+  if (border == null) {
     return;
   }
 
-  assertColor(options.border.color, "Border color");
+  assertColor(border.color, "Border color");
 
-  queryParameters["border"] = "${options.border.width},${options.border.color}";
+  queryParameters["border"] = "${border.width},${border.color}";
 };
 
 final ApplyParams applyBorderRadius = (queryParameters, options) {
-  if (options.borderRadius == null) {
+  final borderRadius = options.borderRadius;
+  if (borderRadius == null) {
     return;
   }
 
   assert(options.border != null, "Border must be set to use borderRadius");
 
-  if (options.borderRadius.isCircular) {
-    queryParameters["border-radius"] = options.borderRadius.topLeft.toString();
+  if (borderRadius.isCircular) {
+    queryParameters["border-radius"] = borderRadius.topLeft.toString();
   } else {
     queryParameters["border-radius"] =
-        "${options.borderRadius.topLeft},${options.borderRadius.topRight},${options.borderRadius.bottomRight},${options.borderRadius.bottomLeft}";
+        "${borderRadius.topLeft},${borderRadius.topRight},${borderRadius.bottomRight},${borderRadius.bottomLeft}";
   }
 };
 
 final ApplyParams applyBorderRadiusInner = (queryParameters, options) {
-  if (options.borderRadiusInner == null) {
+  final borderRadiusInner = options.borderRadiusInner;
+  if (borderRadiusInner == null) {
     return;
   }
 
   assert(options.border != null, "Border must be set to use borderRadiusInner");
 
-  if (options.borderRadiusInner.isCircular) {
+  if (borderRadiusInner.isCircular) {
     queryParameters["border-radius-inner"] =
-        options.borderRadiusInner.topLeft.toString();
+        borderRadiusInner.topLeft.toString();
   } else {
     queryParameters["border-radius-inner"] =
-        "${options.borderRadiusInner.topLeft},${options.borderRadiusInner.topRight},${options.borderRadiusInner.bottomRight},${options.borderRadiusInner.bottomLeft}";
+        "${borderRadiusInner.topLeft},${borderRadiusInner.topRight},${borderRadiusInner.bottomRight},${borderRadiusInner.bottomLeft}";
   }
 };
 
 final ApplyParams applyPadding = (queryParameters, options) {
-  if (options.padding == null) {
+  final padding = options.padding;
+  if (padding == null) {
     return;
   }
 
-  queryParameters["pad"] = options.padding.toString();
+  queryParameters["pad"] = padding.toString();
 };

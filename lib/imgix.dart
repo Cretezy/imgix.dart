@@ -23,82 +23,82 @@ class ImgixOptions {
   /// The output format to convert the image to.
   ///
   /// https://docs.imgix.com/apis/url/format/fm
-  final ImgixFormat format;
+  final ImgixFormat? format;
 
   /// The height of the output image.
   ///
   /// Can be used as a ratio of source height if set between 0.0 and 1.0.
   ///
   /// https://docs.imgix.com/apis/url/size/h
-  final double height;
+  final double? height;
 
   /// The width of the output image.
   ///
   /// Can be used as a ratio of source width if set between 0.0 and 1.0.
   ///
   /// https://docs.imgix.com/apis/url/size/w
-  final double width;
+  final double? width;
 
   /// The maximum allowed height of the output image.
   ///
   /// Will only work if [fit] is set to [ImgixFit.crop].
   ///
   /// https://docs.imgix.com/apis/url/size/max-h
-  final int maxHeight;
+  final int? maxHeight;
 
   /// The maximum allowed width of the output image.
   ///
   /// Will only work if [fit] is set to [ImgixFit.crop].
   ///
   /// https://docs.imgix.com/apis/url/size/max-w
-  final int maxWidth;
+  final int? maxWidth;
 
   /// The minimum allowed height of the output image.
   ///
   /// Will only work if [fit] is set to [ImgixFit.crop].
   ///
   /// https://docs.imgix.com/apis/url/size/min-h
-  final int minHeight;
+  final int? minHeight;
 
   /// The minimum allowed width of the output image.
   ///
   /// Will only work if [fit] is set to [ImgixFit.crop].
   ///
   /// https://docs.imgix.com/apis/url/size/min-w
-  final int minWidth;
+  final int? minWidth;
 
   /// The fit parameter controls how the output image is fit to its
   /// target dimensions after resizing,
   /// and how any background areas will be filled.
   ///
   /// https://docs.imgix.com/apis/url/size/fit
-  final ImgixFit fit;
+  final ImgixFit? fit;
 
   /// The auto parameter helps you automate a baseline level of optimization
   /// across your entire image catalog.
   ///
   /// https://docs.imgix.com/apis/url/auto
-  final List<ImgixAuto> auto;
+  final List<ImgixAuto>? auto;
 
   /// Trims the image to remove a uniform border around the image.
   /// This operation must be set for the other trim parameters to work,
   /// and it will change the size of the image.
   ///
   /// https://docs.imgix.com/apis/url/trim/trim
-  final ImgixTrim trim;
+  final ImgixTrim? trim;
 
   /// The trim tolerance parameter defines the tolerance
   /// for the [ImgixTrim.color] operation.
   ///
   /// https://docs.imgix.com/apis/url/trim/trimtol
-  final double trimTolerance;
+  final double? trimTolerance;
 
   /// Controls the output quality of lossy file [format]
   /// ([ImgixFormat.jpg], [ImgixFormat.pjpg], [ImgixFormat.webp],
   /// or [ImgixFormat.jxr]).
   ///
   /// https://docs.imgix.com/apis/url/format/q
-  final int quality;
+  final int? quality;
 
   /// Controls the output density of your image, so you can serve images at the
   /// correct density for every user’s device from a single master image.
@@ -108,36 +108,36 @@ class ImgixOptions {
   /// The default is 1 and the maximum value is 8.
   ///
   /// https://docs.imgix.com/apis/url/dpr
-  final double devicePixelRatio;
+  final double? devicePixelRatio;
 
   /// Draws a border around the image, in the width and color defined.
   /// The border will overlap the image rather than altering its size.
   ///
   /// https://docs.imgix.com/apis/url/border-and-padding/border
-  final ImgixBorder border;
+  final ImgixBorder? border;
 
   /// Sets the outer radius of the border.
   ///
   /// https://docs.imgix.com/apis/url/border-and-padding/border-radius
-  final ImgixBorderRadius borderRadius;
+  final ImgixBorderRadius? borderRadius;
 
   /// Sets the inner radius of the border, in pixels.
   ///
   /// https://docs.imgix.com/apis/url/border-and-padding/border-radius-inner
-  final ImgixBorderRadius borderRadiusInner;
+  final ImgixBorderRadius? borderRadiusInner;
 
   /// Pads the image by the number of pixels specified.
   /// Must be a positive integer.
   ///
   /// https://docs.imgix.com/apis/url/border-and-padding/pad
-  final int padding;
+  final int? padding;
 
   /// Allows you to fill in any transparent areas in your image with a color of your choice.
   ///
   /// 3 (RGB, FFF), 4 (ARGB, FFFF), 6 (RGB, FFFFFF), or 8 (ARGB, FFFFFFFF) character color hex (without #)
   ///
   /// https://docs.imgix.com/apis/url/fill/bg
-  final String backgroundColor;
+  final String? backgroundColor;
 
   /// Specifies the solid color applied to the excess space of an image resized
   /// with [fit] of [ImgixFit.fill] or [ImgixFit.fillMax].
@@ -147,38 +147,38 @@ class ImgixOptions {
   /// 3 (RGB, FFF), 4 (ARGB, FFFF), 6 (RGB, FFFFFF), or 8 (ARGB, FFFFFFFF) character color hex (without #)
   ///
   /// https://docs.imgix.com/apis/url/fill/fill-color
-  final String fillColor;
+  final String? fillColor;
 
   /// The fill parameter determines how the excess space in an image resized
   /// with [fit] of [ImgixFit.fill] or [ImgixFit.fillMax] should be filled.
   ///
   /// https://docs.imgix.com/apis/url/fill/fill
-  final ImgixFillMode fillMode;
+  final ImgixFillMode? fillMode;
 
   /// When used in a link, will force the browser to download the image instead
   /// of opening it in a new window. Set the value to your desired filename.
   ///
   /// https://docs.imgix.com/apis/url/format/dl
-  final String downloadFileName;
+  final String? downloadFileName;
 
   /// Rotates the image by degrees according to the value specified.
   ///
   /// Must be between 0 and 359 (inclusive).
   ///
   /// https://docs.imgix.com/apis/url/rotation/rot
-  final double rotation;
+  final double? rotation;
 
   /// Flips the image horizontally, vertically, or both.
   ///
   /// https://docs.imgix.com/apis/url/rotation/flip
-  final ImgixFlip flip;
+  final ImgixFlip? flip;
 
   /// Adjusts the overall brightness of the image.
   ///
   /// Must be between -100 and +100 (inclusive).
   ///
   /// https://docs.imgix.com/apis/url/adjustment/bri
-  final double brightness;
+  final double? brightness;
 
   ImgixOptions({
     this.format,
@@ -208,53 +208,53 @@ class ImgixOptions {
   });
 
   ImgixOptions copyWith({
-    ImgixFormat format,
+    ImgixFormat? format,
     bool noFormat = false,
-    double height,
+    double? height,
     bool noHeight = false,
-    double width,
+    double? width,
     bool noWidth = false,
-    int maxHeight,
+    int? maxHeight,
     bool noMaxHeight = false,
-    int maxWidth,
+    int? maxWidth,
     bool noMaxWidth = false,
-    int minHeight,
+    int? minHeight,
     bool noMinHeight = false,
-    int minWidth,
+    int? minWidth,
     bool noMinWidth = false,
-    ImgixFit fit,
+    ImgixFit? fit,
     bool noFit = false,
-    List<ImgixAuto> auto,
+    List<ImgixAuto>? auto,
     bool noAuto = false,
-    ImgixTrim trim,
+    ImgixTrim? trim,
     bool noTrim = false,
-    double trimTolerance,
+    double? trimTolerance,
     bool noTrimTolerance = false,
-    int quality,
+    int? quality,
     bool noQuality = false,
-    double devicePixelRatio,
+    double? devicePixelRatio,
     bool noDevicePixelRatio = false,
-    ImgixBorder border,
+    ImgixBorder? border,
     bool noBorder = false,
-    ImgixBorderRadius borderRadius,
+    ImgixBorderRadius? borderRadius,
     bool noBorderRadius = false,
-    ImgixBorderRadius borderRadiusInner,
+    ImgixBorderRadius? borderRadiusInner,
     bool noBorderRadiusInner = false,
-    int padding,
+    int? padding,
     bool noPadding = false,
-    String backgroundColor,
+    String? backgroundColor,
     bool noBackgroundColor = false,
-    String fillColor,
+    String? fillColor,
     bool noFillColor = false,
-    ImgixFillMode fillMode,
+    ImgixFillMode? fillMode,
     bool noFillMode = false,
-    String downloadFileName,
+    String? downloadFileName,
     bool noDownloadFileName = false,
-    double rotation,
+    double? rotation,
     bool noRotation = false,
-    ImgixFlip flip,
+    ImgixFlip? flip,
     bool noFlip = false,
-    double brightness,
+    double? brightness,
     bool noBrightness = false,
   }) =>
       ImgixOptions(
@@ -297,7 +297,7 @@ class ImgixOptions {
 /// Generates an Imgix URL from a [url] and [options].
 ///
 /// [clearQueryParameters] will clear all other query parameters on the URL.
-String getImgixUrl(String url, ImgixOptions options,
+String getImgixUrl(String url, ImgixOptions? options,
     {bool clearQueryParameters = false}) {
   // No options is a pass-through
   if (options == null) {
