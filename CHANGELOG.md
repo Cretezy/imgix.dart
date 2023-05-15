@@ -1,3 +1,7 @@
+## [0.3.0] - 2023-05-15
+
+- Merge Migrate package to dart 2.18 ([#3](https://github.com/Cretezy/imgix.dart/pull/3))
+
 ## [0.2.0] - 2018-12-13
 
 - Decouple code into multiple files and improve docs

@@ -304,7 +304,7 @@ String getImgixUrl(String url, ImgixOptions? options,
     return url;
   }
 
-  final queryParameters = Map<String, String>();
+  final queryParameters = <String, String>{};
 
   final appliers = <ApplyParams>[
     applyFormat,
@@ -333,7 +333,9 @@ String getImgixUrl(String url, ImgixOptions? options,
     applyBrightness,
   ];
 
-  appliers.forEach((applier) => applier(queryParameters, options));
+  for (var applier in appliers) {
+    applier(queryParameters, options);
+  }
 
   final uri = Uri.parse(url);
 

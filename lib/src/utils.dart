@@ -11,7 +11,7 @@ String trimDouble(double value) {
   return stringValue;
 }
 
-typedef void ApplyParams(
+typedef ApplyParams = void Function(
   Map<String, String> queryParameters,
   ImgixOptions options,
 );
